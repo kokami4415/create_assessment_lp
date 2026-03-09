@@ -529,17 +529,19 @@
     /* reading */
     .lp-reading01-ov .lp-overlay-img {
       top: 0.5%; left: 50%;
-      width: 70%; max-width: 680px;
+      width: 45%; max-width: 680px;
       transform: translateX(-50%);
     }
-    /* benefits */
-    .lp-benefits .lp-overlay-img:nth-child(1) { top:17%; left:3%; width:47%; }
-    .lp-benefits .lp-overlay-img:nth-child(2) { top:17%; right:3%; left:auto; width:47%; }
-    .lp-benefits .lp-overlay-img:nth-child(3) { top:52%; left:3%; width:47%; }
-    .lp-benefits .lp-overlay-img:nth-child(4) { top:52%; right:3%; left:auto; width:47%; }
-    /* voice overlays */
-    .lp-voice-left .lp-overlay-img  { top:4%; left:0;  width:38%; }
-    .lp-voice-right .lp-overlay-img { top:4%; right:0; left:auto; width:38%; }
+    /* benefits - 縦並び中央寄せ */
+    .lp-benefits .lp-overlay-img:nth-child(1) { top:3%;  left:50%; transform:translateX(-50%); width:80%; max-width:620px; }
+    .lp-benefits .lp-overlay-img:nth-child(2) { top:37%; left:50%; transform:translateX(-50%); width:90%; max-width:520px; }
+    .lp-benefits .lp-overlay-img:nth-child(3) { top:62%; left:50%; transform:translateX(-50%); width:80%; max-width:520px; }
+    .lp-benefits .lp-overlay-img:nth-child(4) { top:87%; left:50%; transform:translateX(-50%); width:80%; max-width:520px; }
+    /* voice overlays - 個別top値 */
+    .lp-voice-01 .lp-overlay-img { top:30%; left:13%;  width:34%; max-width:280px; }
+    .lp-voice-02 .lp-overlay-img { top:13%; right:13%; width:34%; max-width:280px; }
+    .lp-voice-03 .lp-overlay-img { top:15%; left:13%;  width:34%; max-width:280px; }
+    .lp-voice-04 .lp-overlay-img { top:13%; right:13%; width:34%; max-width:280px; }
     /* CTA overlay */
     .lp-cta-ov {
       position: relative;
@@ -621,6 +623,31 @@
       transform-origin: center;
       display: block;
     }
+
+    /* ===== FIXED CTA ===== */
+    #fixed-cta {
+      position: fixed;
+      left: 50%;
+      bottom: 16px;
+      transform: translateX(-50%) translateY(16px);
+      width: 90vw;
+      max-width: 680px;
+      z-index: 100;
+      opacity: 0;
+      visibility: hidden;
+      pointer-events: none;
+      filter: drop-shadow(0 6px 16px rgba(0,0,0,0.28));
+      transition: opacity 300ms ease, transform 300ms ease, visibility 0s linear 300ms;
+    }
+    #fixed-cta.show {
+      opacity: 1;
+      visibility: visible;
+      pointer-events: auto;
+      transform: translateX(-50%) translateY(0);
+      transition: opacity 300ms ease, transform 300ms ease, visibility 0s linear 0s;
+    }
+    #fixed-cta a { display: block; }
+    #fixed-cta img { width: 100%; height: auto; display: block; border-radius: 60px; }
 
     @media (max-width: 400px) {
       .speed-choice-btn { font-size: 15px; padding: 13px 2px; }
@@ -917,19 +944,19 @@
     <div class="lp-img-block"><img src="img/024-80.jpg" alt="" loading="lazy"></div>
 
     <!-- voice overlays 025-028 -->
-    <div class="lp-img-overlay lp-voice-left">
+    <div class="lp-img-overlay lp-voice-01">
       <img class="lp-overlay-img" src="img/voice01.png" alt="">
       <img src="img/025-80.jpg" alt="" loading="lazy">
     </div>
-    <div class="lp-img-overlay lp-voice-right">
+    <div class="lp-img-overlay lp-voice-02">
       <img class="lp-overlay-img" src="img/voice02.png" alt="">
       <img src="img/026-80.jpg" alt="" loading="lazy">
     </div>
-    <div class="lp-img-overlay lp-voice-left">
+    <div class="lp-img-overlay lp-voice-03">
       <img class="lp-overlay-img" src="img/voice03.png" alt="">
       <img src="img/027-80.jpg" alt="" loading="lazy">
     </div>
-    <div class="lp-img-overlay lp-voice-right">
+    <div class="lp-img-overlay lp-voice-04">
       <img class="lp-overlay-img" src="img/voice04.png" alt="">
       <img src="img/028-80.jpg" alt="" loading="lazy">
     </div>
@@ -966,6 +993,13 @@
 </section>
 
 </div><!-- /#app -->
+
+<!-- ===== FIXED CTA ===== -->
+<div id="fixed-cta">
+  <a class="shiny-btn" href="https://lin.ee/dOVG8NV">
+    <img src="img/cta_btn.png" alt="無料オンライン体験に申し込む">
+  </a>
+</div>
 
 <script>
 // ===== DATA =====
@@ -1176,6 +1210,28 @@ function toggleAccordion(btn) {
   btn.querySelector('.acc-close').style.display = isOpen ? 'block' : 'none';
   btn.querySelector('.acc-open').style.display  = isOpen ? 'none'  : 'block';
 }
+
+// ===== FIXED CTA =====
+(function () {
+  const fixedCta = document.getElementById('fixed-cta');
+  if (!fixedCta) return;
+
+  // 011-80.jpg が表示されたら追従CTAを出す
+  const triggerImg = document.querySelector('img[src="img/011-80.jpg"]');
+  if (!triggerImg) return;
+
+  const observer = new IntersectionObserver(
+    (entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          fixedCta.classList.add('show');
+        }
+      });
+    },
+    { threshold: 0.1 }
+  );
+  observer.observe(triggerImg);
+})();
 </script>
 </body>
 </html>
