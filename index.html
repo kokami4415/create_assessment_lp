@@ -589,6 +589,39 @@
     .lp-cta33-content a { display: block; width: 100%; }
     .lp-cta33-content a img { border-radius: 60px; }
 
+    /* ===== CTA ANIMATIONS ===== */
+    @keyframes shine {
+      0%   { left: -100%; }
+      100% { left: 100%; }
+    }
+    @keyframes cta-pulse {
+      0%, 100% { transform: scale3d(1, 1, 1); }
+      50%       { transform: scale3d(1.05, 1.05, 1.05); }
+    }
+    .shiny-btn {
+      display: block;
+      position: relative;
+      overflow: hidden;
+      border-radius: 60px;
+      cursor: pointer;
+    }
+    .shiny-btn::before {
+      content: '';
+      position: absolute;
+      top: 0; left: -100%;
+      width: 60%; height: 100%;
+      background: linear-gradient(130deg, rgba(255,255,255,0) 25%, rgba(255,255,255,0.55) 50%, rgba(255,255,255,0) 75%);
+      animation: shine 1.8s ease-in-out infinite;
+      z-index: 2;
+      pointer-events: none;
+    }
+    .shiny-btn img { position: relative; z-index: 1; border-radius: 60px; }
+    .pulse-btn {
+      animation: cta-pulse 1.4s ease-in-out infinite;
+      transform-origin: center;
+      display: block;
+    }
+
     @media (max-width: 400px) {
       .speed-choice-btn { font-size: 15px; padding: 13px 2px; }
       .abc-btn { font-size: 24px; padding: 16px 6px; }
@@ -758,167 +791,177 @@
     </table>
   </div>
 
+  <!-- RESULTS IMAGES -->
+  <div style="margin:0;">
+    <img src="results1.png" alt="" style="display:block;width:100%;height:auto;">
+    <img src="results2.png" alt="" style="display:block;width:100%;height:auto;">
+  </div>
+
   <!-- LP SECTION: 007-80 onward -->
   <div id="lp-section">
 
     <!-- 007: x3up overlay -->
     <div class="lp-img-overlay lp-x3up">
-      <img class="lp-overlay-img" src="lp202512_onine_backup12242142/img/x3up.png" alt="">
-      <img src="lp202512_onine_backup12242142/img/007-80.jpg" alt="">
+      <img class="lp-overlay-img" src="img/x3up.png" alt="">
+      <img src="img/007-80.jpg" alt="">
     </div>
 
-    <div class="lp-img-block"><img src="lp202512_onine_backup12242142/img/008-80.jpg" alt="" loading="lazy"></div>
-    <div class="lp-img-block"><img src="lp202512_onine_backup12242142/img/009-80.jpg" alt="" loading="lazy"></div>
-    <div class="lp-img-block"><img src="lp202512_onine_backup12242142/img/010-80.jpg" alt="" loading="lazy"></div>
+    <div class="lp-img-block"><img src="img/008-80.jpg" alt="" loading="lazy"></div>
+    <div class="lp-img-block"><img src="img/009-80.jpg" alt="" loading="lazy"></div>
+    <div class="lp-img-block"><img src="img/010-80.jpg" alt="" loading="lazy"></div>
 
     <!-- 011: logo overlay -->
     <div class="lp-img-overlay lp-logo-ov">
-      <img class="lp-overlay-img" src="lp202512_onine_backup12242142/img/logo.png" alt="">
-      <img src="lp202512_onine_backup12242142/img/011-80.jpg" alt="" loading="lazy">
+      <img class="lp-overlay-img" src="img/logo.png" alt="">
+      <img src="img/011-80.jpg" alt="" loading="lazy">
     </div>
 
-    <div class="lp-img-block"><img src="lp202512_onine_backup12242142/img/012-80.jpg" alt="" loading="lazy"></div>
+    <div class="lp-img-block"><img src="img/012-80.jpg" alt="" loading="lazy"></div>
 
     <!-- 013: eye overlay -->
     <div class="lp-img-overlay lp-eye-ov">
-      <img class="lp-overlay-img" src="lp202512_onine_backup12242142/img/eye01.png" alt="">
-      <img src="lp202512_onine_backup12242142/img/013-80.jpg" alt="" loading="lazy">
+      <img class="lp-overlay-img" src="img/eye01.png" alt="">
+      <img src="img/013-80.jpg" alt="" loading="lazy">
     </div>
 
     <!-- Training accordion 1 -->
     <div class="lp-accordion">
       <button class="lp-accordion-toggle" onclick="toggleAccordion(this)">
-        <img src="lp202512_onine_backup12242142/img/training1close.png" class="acc-close" alt="広く見るためのトレーニング（開く）">
-        <img src="lp202512_onine_backup12242142/img/training1open.png"  class="acc-open"  alt="広く見るためのトレーニング（閉じる）" style="display:none">
+        <img src="img/training1close.png" class="acc-close" alt="広く見るためのトレーニング（開く）">
+        <img src="img/training1open.png"  class="acc-open"  alt="広く見るためのトレーニング（閉じる）" style="display:none">
       </button>
       <div class="lp-accordion-panel">
-        <img src="lp202512_onine_backup12242142/img/training1contents.png" alt="" loading="lazy">
+        <img src="img/training1contents.png" alt="" loading="lazy">
       </div>
     </div>
 
     <!-- Training accordion 2 -->
     <div class="lp-accordion">
       <button class="lp-accordion-toggle" onclick="toggleAccordion(this)">
-        <img src="lp202512_onine_backup12242142/img/training2close.png" class="acc-close" alt="情報を瞬時に理解するトレーニング（開く）">
-        <img src="lp202512_onine_backup12242142/img/training2open.png"  class="acc-open"  alt="情報を瞬時に理解するトレーニング（閉じる）" style="display:none">
+        <img src="img/training2close.png" class="acc-close" alt="情報を瞬時に理解するトレーニング（開く）">
+        <img src="img/training2open.png"  class="acc-open"  alt="情報を瞬時に理解するトレーニング（閉じる）" style="display:none">
       </button>
       <div class="lp-accordion-panel">
-        <img src="lp202512_onine_backup12242142/img/training2contents.png" alt="" loading="lazy">
+        <img src="img/training2contents.png" alt="" loading="lazy">
       </div>
     </div>
 
-    <div class="lp-img-block"><img src="lp202512_onine_backup12242142/img/014-80.jpg" alt="" loading="lazy"></div>
+    <div class="lp-img-block"><img src="img/014-80.jpg" alt="" loading="lazy"></div>
 
     <!-- 015: brain01 overlay -->
     <div class="lp-img-overlay lp-brain01-ov">
-      <img class="lp-overlay-img" src="lp202512_onine_backup12242142/img/brain01.png" alt="">
-      <img src="lp202512_onine_backup12242142/img/015-80.jpg" alt="" loading="lazy">
+      <img class="lp-overlay-img" src="img/brain01.png" alt="">
+      <img src="img/015-80.jpg" alt="" loading="lazy">
     </div>
 
     <!-- Training accordion 3 -->
     <div class="lp-accordion">
       <button class="lp-accordion-toggle" onclick="toggleAccordion(this)">
-        <img src="lp202512_onine_backup12242142/img/training3close.png" class="acc-close" alt="（開く）">
-        <img src="lp202512_onine_backup12242142/img/training3open.png"  class="acc-open"  alt="（閉じる）" style="display:none">
+        <img src="img/training3close.png" class="acc-close" alt="（開く）">
+        <img src="img/training3open.png"  class="acc-open"  alt="（閉じる）" style="display:none">
       </button>
       <div class="lp-accordion-panel">
-        <img src="lp202512_onine_backup12242142/img/training3contents.png" alt="" loading="lazy">
+        <img src="img/training3contents.png" alt="" loading="lazy">
       </div>
     </div>
 
     <!-- 016: brain02 overlay -->
     <div class="lp-img-overlay lp-brain02-ov">
-      <img class="lp-overlay-img" src="lp202512_onine_backup12242142/img/brain02.png" alt="">
-      <img src="lp202512_onine_backup12242142/img/016-80.jpg" alt="" loading="lazy">
+      <img class="lp-overlay-img" src="img/brain02.png" alt="">
+      <img src="img/016-80.jpg" alt="" loading="lazy">
     </div>
 
     <!-- Training accordion 4 -->
     <div class="lp-accordion">
       <button class="lp-accordion-toggle" onclick="toggleAccordion(this)">
-        <img src="lp202512_onine_backup12242142/img/training4close.png" class="acc-close" alt="（開く）">
-        <img src="lp202512_onine_backup12242142/img/training4open.png"  class="acc-open"  alt="（閉じる）" style="display:none">
+        <img src="img/training4close.png" class="acc-close" alt="（開く）">
+        <img src="img/training4open.png"  class="acc-open"  alt="（閉じる）" style="display:none">
       </button>
       <div class="lp-accordion-panel">
-        <img src="lp202512_onine_backup12242142/img/training4contents.png" alt="" loading="lazy">
+        <img src="img/training4contents.png" alt="" loading="lazy">
       </div>
     </div>
 
-    <div class="lp-img-block"><img src="lp202512_onine_backup12242142/img/017-80.jpg" alt="" loading="lazy"></div>
-    <div class="lp-img-block"><img src="lp202512_onine_backup12242142/img/018-80.jpg" alt="" loading="lazy"></div>
+    <div class="lp-img-block"><img src="img/017-80.jpg" alt="" loading="lazy"></div>
+    <div class="lp-img-block"><img src="img/018-80.jpg" alt="" loading="lazy"></div>
 
     <!-- 019: reading01 overlay -->
     <div class="lp-img-overlay lp-reading01-ov">
-      <img class="lp-overlay-img" src="lp202512_onine_backup12242142/img/reading01.png" alt="">
-      <img src="lp202512_onine_backup12242142/img/019-80.jpg" alt="" loading="lazy">
+      <img class="lp-overlay-img" src="img/reading01.png" alt="">
+      <img src="img/019-80.jpg" alt="" loading="lazy">
     </div>
 
-    <div class="lp-img-block"><img src="lp202512_onine_backup12242142/img/020-80.jpg" alt="" loading="lazy"></div>
-    <div class="lp-img-block"><img src="lp202512_onine_backup12242142/img/021-80.jpg" alt="" loading="lazy"></div>
+    <div class="lp-img-block"><img src="img/020-80.jpg" alt="" loading="lazy"></div>
+    <div class="lp-img-block"><img src="img/021-80.jpg" alt="" loading="lazy"></div>
 
     <!-- 022: benefits overlay -->
     <div class="lp-img-overlay lp-benefits">
-      <img class="lp-overlay-img" src="lp202512_onine_backup12242142/img/benefit01.png" alt="">
-      <img class="lp-overlay-img" src="lp202512_onine_backup12242142/img/benefit02.png" alt="">
-      <img class="lp-overlay-img" src="lp202512_onine_backup12242142/img/benefit03.png" alt="">
-      <img class="lp-overlay-img" src="lp202512_onine_backup12242142/img/benefit04.png" alt="">
-      <img src="lp202512_onine_backup12242142/img/022-80.jpg" alt="" loading="lazy">
+      <img class="lp-overlay-img" src="img/benefit01.png" alt="">
+      <img class="lp-overlay-img" src="img/benefit02.png" alt="">
+      <img class="lp-overlay-img" src="img/benefit03.png" alt="">
+      <img class="lp-overlay-img" src="img/benefit04.png" alt="">
+      <img src="img/022-80.jpg" alt="" loading="lazy">
     </div>
 
     <!-- CTA (003-80) -->
     <div class="lp-cta-ov">
-      <img class="base" src="lp202512_onine_backup12242142/img/003-80.jpg" alt="" loading="lazy">
+      <img class="base" src="img/003-80.jpg" alt="" loading="lazy">
       <a class="cta-btn" href="https://lin.ee/dOVG8NV">
-        <img src="lp202512_onine_backup12242142/img/cta_btn.png" alt="無料オンライン体験に申し込む" loading="lazy">
+        <span class="pulse-btn shiny-btn">
+          <img src="img/cta_btn.png" alt="無料オンライン体験に申し込む" loading="lazy">
+        </span>
       </a>
     </div>
 
-    <div class="lp-img-block"><img src="lp202512_onine_backup12242142/img/023-80.jpg" alt="" loading="lazy"></div>
-    <div class="lp-img-block"><img src="lp202512_onine_backup12242142/img/024-80.jpg" alt="" loading="lazy"></div>
+    <div class="lp-img-block"><img src="img/023-80.jpg" alt="" loading="lazy"></div>
+    <div class="lp-img-block"><img src="img/024-80.jpg" alt="" loading="lazy"></div>
 
     <!-- voice overlays 025-028 -->
     <div class="lp-img-overlay lp-voice-left">
-      <img class="lp-overlay-img" src="lp202512_onine_backup12242142/img/voice01.png" alt="">
-      <img src="lp202512_onine_backup12242142/img/025-80.jpg" alt="" loading="lazy">
+      <img class="lp-overlay-img" src="img/voice01.png" alt="">
+      <img src="img/025-80.jpg" alt="" loading="lazy">
     </div>
     <div class="lp-img-overlay lp-voice-right">
-      <img class="lp-overlay-img" src="lp202512_onine_backup12242142/img/voice02.png" alt="">
-      <img src="lp202512_onine_backup12242142/img/026-80.jpg" alt="" loading="lazy">
+      <img class="lp-overlay-img" src="img/voice02.png" alt="">
+      <img src="img/026-80.jpg" alt="" loading="lazy">
     </div>
     <div class="lp-img-overlay lp-voice-left">
-      <img class="lp-overlay-img" src="lp202512_onine_backup12242142/img/voice03.png" alt="">
-      <img src="lp202512_onine_backup12242142/img/027-80.jpg" alt="" loading="lazy">
+      <img class="lp-overlay-img" src="img/voice03.png" alt="">
+      <img src="img/027-80.jpg" alt="" loading="lazy">
     </div>
     <div class="lp-img-overlay lp-voice-right">
-      <img class="lp-overlay-img" src="lp202512_onine_backup12242142/img/voice04.png" alt="">
-      <img src="lp202512_onine_backup12242142/img/028-80.jpg" alt="" loading="lazy">
+      <img class="lp-overlay-img" src="img/voice04.png" alt="">
+      <img src="img/028-80.jpg" alt="" loading="lazy">
     </div>
 
-    <div class="lp-img-block"><img src="lp202512_onine_backup12242142/img/029-80.jpg" alt="" loading="lazy"></div>
-    <div class="lp-img-block"><img src="lp202512_onine_backup12242142/img/030-80.jpg" alt="" loading="lazy"></div>
-    <div class="lp-img-block"><img src="lp202512_onine_backup12242142/img/031-80.jpg" alt="" loading="lazy"></div>
+    <div class="lp-img-block"><img src="img/029-80.jpg" alt="" loading="lazy"></div>
+    <div class="lp-img-block"><img src="img/030-80.jpg" alt="" loading="lazy"></div>
+    <div class="lp-img-block"><img src="img/031-80.jpg" alt="" loading="lazy"></div>
 
     <!-- CTA2 (032-80) -->
     <div class="lp-cta-ov">
-      <img class="base" src="lp202512_onine_backup12242142/img/032-80.jpg" alt="" loading="lazy">
+      <img class="base" src="img/032-80.jpg" alt="" loading="lazy">
       <a class="cta-btn" href="https://lin.ee/dOVG8NV">
-        <img src="lp202512_onine_backup12242142/img/cta_btn2.png" alt="無料オンライン体験に申し込む" loading="lazy">
+        <span class="pulse-btn shiny-btn">
+          <img src="img/cta_btn2.png" alt="無料オンライン体験に申し込む" loading="lazy">
+        </span>
       </a>
     </div>
 
     <!-- CTA3 (033-80) -->
     <div class="lp-cta33">
-      <img class="base" src="lp202512_onine_backup12242142/img/033-80.jpg" alt="" loading="lazy">
+      <img class="base" src="img/033-80.jpg" alt="" loading="lazy">
       <div class="lp-cta33-content">
-        <img src="lp202512_onine_backup12242142/img/cta_btn_txt1.png" alt="" loading="lazy">
-        <a href="https://online.cre-sokudoku.co.jp/application/">
-          <img src="lp202512_onine_backup12242142/img/cta_btn3.png" alt="無料オンライン体験に申し込む" loading="lazy">
+        <img src="img/cta_btn_txt1.png" alt="" loading="lazy">
+        <a class="pulse-btn shiny-btn" href="https://online.cre-sokudoku.co.jp/application/" style="border-radius:60px;">
+          <img src="img/cta_btn3.png" alt="無料オンライン体験に申し込む" loading="lazy">
         </a>
       </div>
     </div>
 
-    <div class="lp-img-block"><img src="lp202512_onine_backup12242142/img/034-80.jpg" alt="" loading="lazy"></div>
-    <div class="lp-img-block"><img src="lp202512_onine_backup12242142/img/035-80.jpg" alt="" loading="lazy"></div>
-    <div class="lp-img-block"><img src="lp202512_onine_backup12242142/img/036-80.jpg" alt="" loading="lazy"></div>
+    <div class="lp-img-block"><img src="img/034-80.jpg" alt="" loading="lazy"></div>
+    <div class="lp-img-block"><img src="img/035-80.jpg" alt="" loading="lazy"></div>
+    <div class="lp-img-block"><img src="img/036-80.jpg" alt="" loading="lazy"></div>
   </div>
 </section>
 
