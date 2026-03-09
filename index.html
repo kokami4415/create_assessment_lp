@@ -1,0 +1,1138 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+  <title>速読力診断 | クリエイト速読スクール</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;700;900&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
+
+    @keyframes pulse-btn {
+      0%, 100% { transform: scale(1); }
+      50% { transform: scale(1.04); }
+    }
+
+    body {
+      font-family: 'Noto Sans JP', 'Hiragino Sans', 'Meiryo', sans-serif;
+      background: #f0f0f0;
+      color: #111;
+      min-height: 100vh;
+    }
+
+    /* ===== WRAPPER ===== */
+    #app {
+      max-width: 750px;
+      margin: 0 auto;
+      background: #fff;
+      min-height: 100vh;
+    }
+
+    /* ===== SCREENS ===== */
+    .screen { display: none; flex-direction: column; }
+    .screen.active { display: flex; }
+
+    /* ===== TOP BAR ===== */
+    .top-bar {
+      background: #FFD600;
+      padding: 12px 20px;
+      font-size: 15px;
+      font-weight: 700;
+      text-align: center;
+      letter-spacing: 0.5px;
+      flex-shrink: 0;
+    }
+    .top-bar-timer {
+      background: #FFD600;
+      padding: 14px 20px;
+      font-size: 22px;
+      font-weight: 900;
+      text-align: center;
+      letter-spacing: 1px;
+      flex-shrink: 0;
+    }
+    .top-bar-timer.warn { background: #ff9900; }
+    .top-bar-timer.danger { background: #e83030; color: #fff; }
+
+    /* ===== FIRST VIEW ===== */
+    #screen-fv {
+      background: #fff;
+    }
+    .fv-hero {
+      position: relative;
+    }
+    .fv-hero-img {
+      display: block;
+      width: 100%;
+      height: auto;
+    }
+    .fv-hero-bottom {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      padding: 60px 24px 28px;
+      background: linear-gradient(to bottom, transparent, rgba(255,255,255,0.95) 40%);
+    }
+    .btn-start-fv {
+      display: block;
+      width: 100%;
+      background: #FFD600;
+      color: #111;
+      border: none;
+      border-radius: 50px;
+      padding: 18px 24px;
+      cursor: pointer;
+      text-align: center;
+      box-shadow: 0 6px 0 #111, 0 8px 16px rgba(0,0,0,0.2);
+      animation: pulse-btn 1.4s ease-in-out infinite;
+    }
+    .btn-start-fv:active { animation: none; transform: scale(0.97); }
+    .btn-start-fv-sub { font-size: 14px; font-weight: 700; margin-bottom: 2px; }
+    .btn-start-fv-main { font-size: 26px; font-weight: 900; }
+    .fv-footer {
+      margin-top: 16px;
+      text-align: center;
+      font-size: 12px;
+      color: #999;
+    }
+    .fv-footer a { color: #999; }
+
+    /* ===== INTRO SCREENS ===== */
+    .intro-inner {
+      padding: 24px 24px 40px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+      flex: 1;
+    }
+    .step-heading {
+      font-size: 28px;
+      font-weight: 900;
+      letter-spacing: 2px;
+      margin-bottom: 20px;
+    }
+    .step-box {
+      display: block;
+      width: 100%;
+      background: #1A35CC;
+      color: #fff;
+      border-radius: 0;
+      padding: 18px;
+      font-size: 26px;
+      font-weight: 900;
+      margin-bottom: 24px;
+      letter-spacing: 2px;
+    }
+    .intro-desc {
+      font-size: 15px;
+      line-height: 1.8;
+      margin-bottom: 24px;
+      text-align: center;
+    }
+    .intro-example {
+      width: 100%;
+      background: #eee;
+      border-radius: 8px;
+      padding: 20px 16px;
+      margin-bottom: 24px;
+      position: relative;
+    }
+    .intro-example-label {
+      display: inline-block;
+      background: #1A35CC;
+      color: #fff;
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 1px;
+      padding: 3px 10px;
+      border-radius: 4px;
+      margin-bottom: 14px;
+    }
+    .intro-example-target {
+      font-size: 24px;
+      font-weight: 900;
+      margin-bottom: 14px;
+    }
+    .intro-example-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 8px;
+    }
+    .intro-example-cell {
+      background: #fff;
+      border-radius: 4px;
+      padding: 10px 4px;
+      font-size: 14px;
+      font-weight: 700;
+      text-align: center;
+    }
+    .intro-example-cell.highlight { background: #FFD600; }
+    .intro-example-abc {
+      display: flex;
+      gap: 12px;
+      justify-content: center;
+      margin-top: 8px;
+    }
+    .intro-example-abc-btn {
+      flex: 1;
+      background: #fff;
+      border: 2px solid #aaa;
+      border-radius: 50px;
+      padding: 10px;
+      font-size: 20px;
+      font-weight: 900;
+      text-align: center;
+    }
+    .intro-table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-bottom: 24px;
+    }
+    .intro-table td {
+      border: 2px solid #111;
+      padding: 12px 16px;
+      font-size: 16px;
+      font-weight: 700;
+    }
+    .intro-table td:first-child { background: #f5f5f5; width: 44%; }
+    .intro-table td:last-child { background: #fff; }
+    .intro-note {
+      font-size: 13px;
+      color: #555;
+      margin-bottom: 12px;
+      text-align: center;
+    }
+    .intro-note::after {
+      content: '▼';
+      display: block;
+      font-size: 10px;
+      color: #bbb;
+      margin-top: 6px;
+    }
+    .btn-test-start {
+      display: block;
+      width: 100%;
+      background: #FFD600;
+      color: #111;
+      border: none;
+      border-radius: 50px;
+      padding: 22px;
+      font-size: 24px;
+      font-weight: 900;
+      cursor: pointer;
+      box-shadow: 0 6px 0 #111, 0 8px 16px rgba(0,0,0,0.2);
+      animation: pulse-btn 1.4s ease-in-out infinite;
+    }
+    .btn-test-start:active { animation: none; transform: scale(0.97); }
+
+    /* ===== SPEED TEST ===== */
+    #screen-speed-test { background: #fff; }
+    .speed-test-inner {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 20px 16px 32px;
+    }
+    .speed-test-label {
+      font-size: 13px;
+      font-weight: 700;
+      color: #555;
+      text-align: center;
+      margin-bottom: 4px;
+    }
+    .speed-test-instruction {
+      font-size: 13px;
+      line-height: 1.6;
+      text-align: center;
+      color: #555;
+      margin-bottom: 24px;
+    }
+    .speed-q-num {
+      font-size: 22px;
+      font-weight: 900;
+      align-self: flex-start;
+      margin-bottom: 8px;
+    }
+    .speed-target {
+      font-size: clamp(40px, 11vw, 64px);
+      font-weight: 900;
+      letter-spacing: 4px;
+      margin-bottom: 28px;
+      text-align: center;
+    }
+    .speed-choices {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 8px;
+      width: 100%;
+      max-width: 480px;
+    }
+    .speed-choice-btn {
+      background: #f5f5f5;
+      border: 2px solid #ccc;
+      border-radius: 8px;
+      padding: 16px 4px;
+      font-size: 18px;
+      font-weight: 700;
+      cursor: pointer;
+      text-align: center;
+      letter-spacing: 1px;
+      transition: background 0.1s, border-color 0.1s, transform 0.1s;
+    }
+    .speed-choice-btn:active {
+      background: #FFD600;
+      border-color: #111;
+      transform: scale(0.95);
+    }
+
+    /* ===== LOGICAL TEST ===== */
+    #screen-logical-test { background: #fff; }
+    .logical-inner {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      padding: 20px 20px 40px;
+      max-width: 600px;
+      margin: 0 auto;
+      width: 100%;
+    }
+    .logical-test-label {
+      font-size: 15px;
+      font-weight: 700;
+      text-align: center;
+      margin-bottom: 4px;
+    }
+    .logical-instruction {
+      font-size: 13px;
+      line-height: 1.6;
+      text-align: center;
+      color: #555;
+      margin-bottom: 24px;
+    }
+    .logical-q-num {
+      font-size: 22px;
+      font-weight: 900;
+      margin-bottom: 16px;
+    }
+    .logical-q-box {
+      background: #f5f5f5;
+      border-radius: 10px;
+      padding: 22px 20px;
+      margin-bottom: 20px;
+    }
+    .logical-conditions {
+      font-size: 20px;
+      font-weight: 700;
+      line-height: 1.9;
+      margin-bottom: 12px;
+      text-align: center;
+    }
+    .logical-question {
+      font-size: 22px;
+      font-weight: 900;
+      text-align: center;
+      color: #1A35CC;
+    }
+    .logical-abc {
+      display: flex;
+      gap: 12px;
+    }
+    .abc-btn {
+      flex: 1;
+      background: #fff;
+      border: 2.5px solid #aaa;
+      border-radius: 50px;
+      padding: 20px 8px;
+      font-size: 28px;
+      font-weight: 900;
+      cursor: pointer;
+      text-align: center;
+      transition: background 0.1s, border-color 0.1s, transform 0.1s;
+    }
+    .abc-btn:active {
+      background: #FFD600;
+      border-color: #111;
+      transform: scale(0.96);
+    }
+
+    /* ===== FINISHED SCREEN ===== */
+    #screen-finished {
+      background: #fff;
+      align-items: center;
+      justify-content: center;
+      min-height: 100vh;
+      padding: 40px 24px;
+      text-align: center;
+    }
+    .finished-box {
+      background: #1A35CC;
+      color: #fff;
+      border-radius: 8px;
+      padding: 20px 40px;
+      font-size: 24px;
+      font-weight: 900;
+      margin-bottom: 48px;
+    }
+    .finished-sub {
+      font-size: 15px;
+      color: #666;
+      margin-bottom: 16px;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      justify-content: center;
+    }
+    .finished-sub::before, .finished-sub::after { content: '／'; color: #aaa; }
+    .finished-measuring {
+      font-size: clamp(28px, 7vw, 44px);
+      font-weight: 900;
+      line-height: 1.3;
+    }
+
+    /* ===== RESULT SCREEN ===== */
+    #screen-result {
+      background: #fff;
+      min-height: 100vh;
+    }
+    .result-inner {
+      padding: 32px 24px 0;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+    }
+    .result-sub {
+      font-size: 22px;
+      font-weight: 900;
+      color: #111;
+      margin-bottom: 16px;
+      text-align: center;
+      letter-spacing: 1px;
+    }
+    .result-score {
+      font-size: clamp(100px, 28vw, 140px);
+      font-weight: 900;
+      line-height: 1;
+      color: #111;
+    }
+    .result-score-unit { font-size: 24px; font-weight: 700; color: #555; margin-bottom: 28px; }
+    .result-table {
+      width: 100%;
+      max-width: 420px;
+      border-collapse: collapse;
+      margin-bottom: 28px;
+      font-size: 15px;
+    }
+    .result-table th {
+      background: #f0f0f0;
+      border: 2px solid #111;
+      padding: 10px 14px;
+      font-weight: 700;
+    }
+    .result-table td {
+      border: 2px solid #111;
+      padding: 12px 14px;
+      font-weight: 700;
+    }
+    .result-table tr.active-row td {
+      background: #FFD600;
+      font-size: 16px;
+    }
+    .result-stats-row {
+      display: flex;
+      gap: 12px;
+      width: 100%;
+      max-width: 420px;
+      margin-bottom: 24px;
+    }
+    .result-stat-box {
+      flex: 1;
+      background: #f5f5f5;
+      border: 2px solid #ddd;
+      border-radius: 8px;
+      padding: 14px 8px;
+      text-align: center;
+    }
+    .result-stat-label { font-size: 12px; color: #777; margin-bottom: 4px; }
+    .result-stat-val { font-size: 24px; font-weight: 900; color: #1A35CC; }
+    .result-stat-denom { font-size: 12px; color: #999; }
+    .result-message-box {
+      width: 100%;
+      max-width: 500px;
+      background: #fff;
+      border: 2px solid #111;
+      border-radius: 10px;
+      padding: 20px 20px;
+      margin-bottom: 32px;
+      text-align: left;
+    }
+    .result-message-title {
+      font-size: 18px;
+      font-weight: 900;
+      color: #111;
+      margin-bottom: 10px;
+      line-height: 1.4;
+    }
+    .result-message-body {
+      font-size: 14px;
+      line-height: 1.85;
+      color: #444;
+    }
+
+    /* ===== LP SECTION (007-80 onward) ===== */
+    #lp-section {
+      margin-top: 0;
+    }
+    .lp-img-block { margin: 0; }
+    .lp-img-block img { display: block; width: 100%; height: auto; }
+    .lp-img-overlay { position: relative; margin: 0; }
+    .lp-img-overlay img { display: block; width: 100%; height: auto; }
+    .lp-overlay-img {
+      position: absolute;
+      z-index: 3;
+      pointer-events: none;
+    }
+    /* x3up */
+    .lp-x3up .lp-overlay-img {
+      top: 30%; left: 50%;
+      width: 60%; max-width: 520px;
+      transform: translateX(-50%);
+    }
+    /* logo */
+    .lp-logo-ov .lp-overlay-img {
+      top: 18%; left: 50%;
+      width: 78%; max-width: 560px;
+      transform: translateX(-50%);
+    }
+    /* eye */
+    .lp-eye-ov .lp-overlay-img {
+      top: 3%; left: 50%;
+      width: 60%; max-width: 680px;
+      transform: translateX(-50%);
+    }
+    /* brain01 */
+    .lp-brain01-ov .lp-overlay-img {
+      top: 54%; left: 50%;
+      width: 45%; max-width: 680px;
+      transform: translateX(-50%);
+    }
+    /* brain02 */
+    .lp-brain02-ov .lp-overlay-img {
+      top: 2%; left: 50%;
+      width: 45%; max-width: 680px;
+      transform: translateX(-50%);
+    }
+    /* reading */
+    .lp-reading01-ov .lp-overlay-img {
+      top: 0.5%; left: 50%;
+      width: 70%; max-width: 680px;
+      transform: translateX(-50%);
+    }
+    /* benefits */
+    .lp-benefits .lp-overlay-img:nth-child(1) { top:17%; left:3%; width:47%; }
+    .lp-benefits .lp-overlay-img:nth-child(2) { top:17%; right:3%; left:auto; width:47%; }
+    .lp-benefits .lp-overlay-img:nth-child(3) { top:52%; left:3%; width:47%; }
+    .lp-benefits .lp-overlay-img:nth-child(4) { top:52%; right:3%; left:auto; width:47%; }
+    /* voice overlays */
+    .lp-voice-left .lp-overlay-img  { top:4%; left:0;  width:38%; }
+    .lp-voice-right .lp-overlay-img { top:4%; right:0; left:auto; width:38%; }
+    /* CTA overlay */
+    .lp-cta-ov {
+      position: relative;
+      margin: 0;
+    }
+    .lp-cta-ov img.base { display: block; width: 100%; }
+    .lp-cta-ov a.cta-btn {
+      position: absolute;
+      bottom: 12%;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 88%;
+      display: block;
+    }
+    .lp-cta-ov a.cta-btn img { width: 100%; border-radius: 60px; }
+
+    /* accordion */
+    .lp-accordion { margin: 0; }
+    .lp-accordion-toggle {
+      display: block;
+      width: 100%;
+      border: none;
+      padding: 0;
+      cursor: pointer;
+      background: none;
+    }
+    .lp-accordion-toggle img { display: block; width: 100%; }
+    .lp-accordion-panel { display: none; }
+    .lp-accordion-panel.open { display: block; }
+    .lp-accordion-panel img { display: block; width: 100%; }
+
+    /* CTA33 */
+    .lp-cta33 { position: relative; }
+    .lp-cta33 img.base { display: block; width: 100%; }
+    .lp-cta33-content {
+      position: absolute;
+      bottom: 6%;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 88%;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 10px;
+    }
+    .lp-cta33-content img { width: 100%; display: block; }
+    .lp-cta33-content a { display: block; width: 100%; }
+    .lp-cta33-content a img { border-radius: 60px; }
+
+    @media (max-width: 400px) {
+      .speed-choice-btn { font-size: 15px; padding: 13px 2px; }
+      .abc-btn { font-size: 24px; padding: 16px 6px; }
+      .logical-conditions { font-size: 17px; }
+      .logical-question { font-size: 19px; }
+    }
+  </style>
+</head>
+<body>
+<div id="app">
+
+<!-- ===== SCREEN 1: FV ===== -->
+<section id="screen-fv" class="screen active">
+  <div class="fv-hero">
+    <img src="速読力診断.png" alt="速読力診断" class="fv-hero-img">
+    <div class="fv-hero-bottom">
+      <button class="btn-start-fv" onclick="showScreen('screen-speed-intro')">
+        <div class="btn-start-fv-sub">いますぐ無料で</div>
+        <div class="btn-start-fv-main">診断 START</div>
+      </button>
+      <div class="fv-footer">
+        <a href="#">会社概要</a> / <a href="#">特商法に基づく表記</a> / <a href="#">プライバシーポリシー</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== SCREEN 2: SPEED INTRO ===== -->
+<section id="screen-speed-intro" class="screen">
+  <div class="top-bar">2分でわかる「速読力診断」</div>
+  <div class="intro-inner">
+    <div class="step-heading">- STEP1 -</div>
+    <span class="step-box">スピードチェック</span>
+    <p class="intro-desc">
+      表示される方角の漢字<br>
+      （例：南南西、東北東など）と同じものを、<br>
+      8つの選択肢の中から素早く見つけて<br>
+      タップしてください。
+    </p>
+    <div class="intro-example">
+      <div class="intro-example-label">問題例</div>
+      <div class="intro-example-target">南南西</div>
+      <div class="intro-example-grid">
+        <div class="intro-example-cell">南南東</div>
+        <div class="intro-example-cell">北北東</div>
+        <div class="intro-example-cell highlight">南南西</div>
+        <div class="intro-example-cell">西北西</div>
+        <div class="intro-example-cell">東南東</div>
+        <div class="intro-example-cell">東北東</div>
+        <div class="intro-example-cell">西南西</div>
+        <div class="intro-example-cell">北北西</div>
+      </div>
+    </div>
+    <table class="intro-table">
+      <tr><td>問題数</td><td>全30問</td></tr>
+      <tr><td>制限時間</td><td>30秒</td></tr>
+    </table>
+    <div class="intro-note">押すとすぐにテストスタート</div>
+    <button class="btn-test-start" onclick="startSpeedTest()">テスト開始</button>
+  </div>
+</section>
+
+<!-- ===== SCREEN 3: SPEED TEST ===== -->
+<section id="screen-speed-test" class="screen">
+  <div class="top-bar-timer" id="speed-timer-bar">残り 0:30</div>
+  <div class="speed-test-inner">
+    <div class="speed-test-label">スピードチェック</div>
+    <div class="speed-test-instruction">
+      表示される方角の漢字と同じものを、<br>8つの選択肢の中から素早く見つけてタップしてください。
+    </div>
+    <div class="speed-q-num" id="speed-q-num">1</div>
+    <div class="speed-target" id="speed-target">東南東</div>
+    <div class="speed-choices" id="speed-choices"></div>
+  </div>
+</section>
+
+<!-- ===== SCREEN 4: LOGICAL INTRO ===== -->
+<section id="screen-logical-intro" class="screen">
+  <div class="top-bar">2分でわかる「速読力診断」</div>
+  <div class="intro-inner">
+    <div class="step-heading">- STEP2 -</div>
+    <span class="step-box">ロジカルテスト</span>
+    <p class="intro-desc">
+      問題文を読んで、A・B・Cの<br>
+      いずれかを選んでください。<br>
+      2つの条件文を素早く読み、<br>
+      質問に対する正しい答えを選択してください。
+    </p>
+    <div class="intro-example">
+      <div class="intro-example-label">問題例</div>
+      <div style="font-size:16px;font-weight:700;margin-bottom:14px;line-height:1.8;">
+        CはAより低い。　BはCより低い。<br>
+        <span style="color:#1A35CC;font-size:17px;font-weight:900;">一番高いのは？</span>
+      </div>
+      <div class="intro-example-abc">
+        <div class="intro-example-abc-btn">A</div>
+        <div class="intro-example-abc-btn">B</div>
+        <div class="intro-example-abc-btn">C</div>
+      </div>
+    </div>
+    <table class="intro-table">
+      <tr><td>問題数</td><td>全30問</td></tr>
+      <tr><td>制限時間</td><td>60秒</td></tr>
+    </table>
+    <div class="intro-note">押すとすぐにテストスタート</div>
+    <button class="btn-test-start" onclick="startLogicalTest()">テスト開始</button>
+  </div>
+</section>
+
+<!-- ===== SCREEN 5: LOGICAL TEST ===== -->
+<section id="screen-logical-test" class="screen">
+  <div class="top-bar-timer" id="logical-timer-bar">残り 1:00</div>
+  <div class="logical-inner">
+    <div class="logical-test-label">ロジカルテスト</div>
+    <div class="logical-instruction">
+      問題文を読んで、A・B・Cの<br>
+      いずれかを選んでください。<br>
+      2つの条件文を素早く読み、質問に対する正しい答えを選択してください。
+    </div>
+    <div class="logical-q-num" id="logical-q-num">1</div>
+    <div class="logical-q-box">
+      <div class="logical-conditions" id="logical-conditions"></div>
+      <div class="logical-question" id="logical-question"></div>
+    </div>
+    <div class="logical-abc">
+      <button class="abc-btn" onclick="answerLogical('A')">A</button>
+      <button class="abc-btn" onclick="answerLogical('B')">B</button>
+      <button class="abc-btn" onclick="answerLogical('C')">C</button>
+    </div>
+  </div>
+</section>
+
+<!-- ===== SCREEN 6: FINISHED ===== -->
+<section id="screen-finished" class="screen">
+  <div class="finished-box">お疲れ様でした。</div>
+  <div class="finished-sub">あなたの脳の処理速度は？</div>
+  <div class="finished-measuring">あなたの結果を<br>測定中…</div>
+</section>
+
+<!-- ===== SCREEN 7: RESULT + LP ===== -->
+<section id="screen-result" class="screen">
+  <div class="result-inner">
+    <img src="あなたの処理速度は.png" alt="あなたの脳の処理速度は？" style="width:100%; height:auto; display:block; margin-bottom:16px;">
+    <div class="result-score" id="result-score">0</div>
+    <div class="result-score-unit">点</div>
+    <div class="result-stats-row">
+      <div class="result-stat-box">
+        <div class="result-stat-label">スピードチェック</div>
+        <div class="result-stat-val" id="stat-speed">-</div>
+        <div class="result-stat-denom">/ 30問</div>
+      </div>
+      <div class="result-stat-box">
+        <div class="result-stat-label">ロジカルテスト</div>
+        <div class="result-stat-val" id="stat-logical">-</div>
+        <div class="result-stat-denom">/ 30問</div>
+      </div>
+    </div>
+    <div class="result-message-box">
+      <div class="result-message-body" id="result-message-body"></div>
+    </div>
+    <table class="result-table" id="result-table">
+      <tr><th>スコア</th><th>レベル</th></tr>
+      <tr data-range="0-25">  <td>0〜25点</td>  <td>落ち着いてチャレンジ</td></tr>
+      <tr data-range="26-50"> <td>26〜50点</td> <td>初回では十分</td></tr>
+      <tr data-range="51-75"> <td>51〜75点</td> <td>かなり高レベル</td></tr>
+      <tr data-range="76-100"><td>76〜100点</td><td>プロフェッショナル</td></tr>
+    </table>
+  </div>
+
+  <!-- LP SECTION: 007-80 onward -->
+  <div id="lp-section">
+
+    <!-- 007: x3up overlay -->
+    <div class="lp-img-overlay lp-x3up">
+      <img class="lp-overlay-img" src="lp202512_onine_backup12242142/img/x3up.png" alt="">
+      <img src="lp202512_onine_backup12242142/img/007-80.jpg" alt="">
+    </div>
+
+    <div class="lp-img-block"><img src="lp202512_onine_backup12242142/img/008-80.jpg" alt="" loading="lazy"></div>
+    <div class="lp-img-block"><img src="lp202512_onine_backup12242142/img/009-80.jpg" alt="" loading="lazy"></div>
+    <div class="lp-img-block"><img src="lp202512_onine_backup12242142/img/010-80.jpg" alt="" loading="lazy"></div>
+
+    <!-- 011: logo overlay -->
+    <div class="lp-img-overlay lp-logo-ov">
+      <img class="lp-overlay-img" src="lp202512_onine_backup12242142/img/logo.png" alt="">
+      <img src="lp202512_onine_backup12242142/img/011-80.jpg" alt="" loading="lazy">
+    </div>
+
+    <div class="lp-img-block"><img src="lp202512_onine_backup12242142/img/012-80.jpg" alt="" loading="lazy"></div>
+
+    <!-- 013: eye overlay -->
+    <div class="lp-img-overlay lp-eye-ov">
+      <img class="lp-overlay-img" src="lp202512_onine_backup12242142/img/eye01.png" alt="">
+      <img src="lp202512_onine_backup12242142/img/013-80.jpg" alt="" loading="lazy">
+    </div>
+
+    <!-- Training accordion 1 -->
+    <div class="lp-accordion">
+      <button class="lp-accordion-toggle" onclick="toggleAccordion(this)">
+        <img src="lp202512_onine_backup12242142/img/training1close.png" class="acc-close" alt="広く見るためのトレーニング（開く）">
+        <img src="lp202512_onine_backup12242142/img/training1open.png"  class="acc-open"  alt="広く見るためのトレーニング（閉じる）" style="display:none">
+      </button>
+      <div class="lp-accordion-panel">
+        <img src="lp202512_onine_backup12242142/img/training1contents.png" alt="" loading="lazy">
+      </div>
+    </div>
+
+    <!-- Training accordion 2 -->
+    <div class="lp-accordion">
+      <button class="lp-accordion-toggle" onclick="toggleAccordion(this)">
+        <img src="lp202512_onine_backup12242142/img/training2close.png" class="acc-close" alt="情報を瞬時に理解するトレーニング（開く）">
+        <img src="lp202512_onine_backup12242142/img/training2open.png"  class="acc-open"  alt="情報を瞬時に理解するトレーニング（閉じる）" style="display:none">
+      </button>
+      <div class="lp-accordion-panel">
+        <img src="lp202512_onine_backup12242142/img/training2contents.png" alt="" loading="lazy">
+      </div>
+    </div>
+
+    <div class="lp-img-block"><img src="lp202512_onine_backup12242142/img/014-80.jpg" alt="" loading="lazy"></div>
+
+    <!-- 015: brain01 overlay -->
+    <div class="lp-img-overlay lp-brain01-ov">
+      <img class="lp-overlay-img" src="lp202512_onine_backup12242142/img/brain01.png" alt="">
+      <img src="lp202512_onine_backup12242142/img/015-80.jpg" alt="" loading="lazy">
+    </div>
+
+    <!-- Training accordion 3 -->
+    <div class="lp-accordion">
+      <button class="lp-accordion-toggle" onclick="toggleAccordion(this)">
+        <img src="lp202512_onine_backup12242142/img/training3close.png" class="acc-close" alt="（開く）">
+        <img src="lp202512_onine_backup12242142/img/training3open.png"  class="acc-open"  alt="（閉じる）" style="display:none">
+      </button>
+      <div class="lp-accordion-panel">
+        <img src="lp202512_onine_backup12242142/img/training3contents.png" alt="" loading="lazy">
+      </div>
+    </div>
+
+    <!-- 016: brain02 overlay -->
+    <div class="lp-img-overlay lp-brain02-ov">
+      <img class="lp-overlay-img" src="lp202512_onine_backup12242142/img/brain02.png" alt="">
+      <img src="lp202512_onine_backup12242142/img/016-80.jpg" alt="" loading="lazy">
+    </div>
+
+    <!-- Training accordion 4 -->
+    <div class="lp-accordion">
+      <button class="lp-accordion-toggle" onclick="toggleAccordion(this)">
+        <img src="lp202512_onine_backup12242142/img/training4close.png" class="acc-close" alt="（開く）">
+        <img src="lp202512_onine_backup12242142/img/training4open.png"  class="acc-open"  alt="（閉じる）" style="display:none">
+      </button>
+      <div class="lp-accordion-panel">
+        <img src="lp202512_onine_backup12242142/img/training4contents.png" alt="" loading="lazy">
+      </div>
+    </div>
+
+    <div class="lp-img-block"><img src="lp202512_onine_backup12242142/img/017-80.jpg" alt="" loading="lazy"></div>
+    <div class="lp-img-block"><img src="lp202512_onine_backup12242142/img/018-80.jpg" alt="" loading="lazy"></div>
+
+    <!-- 019: reading01 overlay -->
+    <div class="lp-img-overlay lp-reading01-ov">
+      <img class="lp-overlay-img" src="lp202512_onine_backup12242142/img/reading01.png" alt="">
+      <img src="lp202512_onine_backup12242142/img/019-80.jpg" alt="" loading="lazy">
+    </div>
+
+    <div class="lp-img-block"><img src="lp202512_onine_backup12242142/img/020-80.jpg" alt="" loading="lazy"></div>
+    <div class="lp-img-block"><img src="lp202512_onine_backup12242142/img/021-80.jpg" alt="" loading="lazy"></div>
+
+    <!-- 022: benefits overlay -->
+    <div class="lp-img-overlay lp-benefits">
+      <img class="lp-overlay-img" src="lp202512_onine_backup12242142/img/benefit01.png" alt="">
+      <img class="lp-overlay-img" src="lp202512_onine_backup12242142/img/benefit02.png" alt="">
+      <img class="lp-overlay-img" src="lp202512_onine_backup12242142/img/benefit03.png" alt="">
+      <img class="lp-overlay-img" src="lp202512_onine_backup12242142/img/benefit04.png" alt="">
+      <img src="lp202512_onine_backup12242142/img/022-80.jpg" alt="" loading="lazy">
+    </div>
+
+    <!-- CTA (003-80) -->
+    <div class="lp-cta-ov">
+      <img class="base" src="lp202512_onine_backup12242142/img/003-80.jpg" alt="" loading="lazy">
+      <a class="cta-btn" href="https://lin.ee/dOVG8NV">
+        <img src="lp202512_onine_backup12242142/img/cta_btn.png" alt="無料オンライン体験に申し込む" loading="lazy">
+      </a>
+    </div>
+
+    <div class="lp-img-block"><img src="lp202512_onine_backup12242142/img/023-80.jpg" alt="" loading="lazy"></div>
+    <div class="lp-img-block"><img src="lp202512_onine_backup12242142/img/024-80.jpg" alt="" loading="lazy"></div>
+
+    <!-- voice overlays 025-028 -->
+    <div class="lp-img-overlay lp-voice-left">
+      <img class="lp-overlay-img" src="lp202512_onine_backup12242142/img/voice01.png" alt="">
+      <img src="lp202512_onine_backup12242142/img/025-80.jpg" alt="" loading="lazy">
+    </div>
+    <div class="lp-img-overlay lp-voice-right">
+      <img class="lp-overlay-img" src="lp202512_onine_backup12242142/img/voice02.png" alt="">
+      <img src="lp202512_onine_backup12242142/img/026-80.jpg" alt="" loading="lazy">
+    </div>
+    <div class="lp-img-overlay lp-voice-left">
+      <img class="lp-overlay-img" src="lp202512_onine_backup12242142/img/voice03.png" alt="">
+      <img src="lp202512_onine_backup12242142/img/027-80.jpg" alt="" loading="lazy">
+    </div>
+    <div class="lp-img-overlay lp-voice-right">
+      <img class="lp-overlay-img" src="lp202512_onine_backup12242142/img/voice04.png" alt="">
+      <img src="lp202512_onine_backup12242142/img/028-80.jpg" alt="" loading="lazy">
+    </div>
+
+    <div class="lp-img-block"><img src="lp202512_onine_backup12242142/img/029-80.jpg" alt="" loading="lazy"></div>
+    <div class="lp-img-block"><img src="lp202512_onine_backup12242142/img/030-80.jpg" alt="" loading="lazy"></div>
+    <div class="lp-img-block"><img src="lp202512_onine_backup12242142/img/031-80.jpg" alt="" loading="lazy"></div>
+
+    <!-- CTA2 (032-80) -->
+    <div class="lp-cta-ov">
+      <img class="base" src="lp202512_onine_backup12242142/img/032-80.jpg" alt="" loading="lazy">
+      <a class="cta-btn" href="https://lin.ee/dOVG8NV">
+        <img src="lp202512_onine_backup12242142/img/cta_btn2.png" alt="無料オンライン体験に申し込む" loading="lazy">
+      </a>
+    </div>
+
+    <!-- CTA3 (033-80) -->
+    <div class="lp-cta33">
+      <img class="base" src="lp202512_onine_backup12242142/img/033-80.jpg" alt="" loading="lazy">
+      <div class="lp-cta33-content">
+        <img src="lp202512_onine_backup12242142/img/cta_btn_txt1.png" alt="" loading="lazy">
+        <a href="https://online.cre-sokudoku.co.jp/application/">
+          <img src="lp202512_onine_backup12242142/img/cta_btn3.png" alt="無料オンライン体験に申し込む" loading="lazy">
+        </a>
+      </div>
+    </div>
+
+    <div class="lp-img-block"><img src="lp202512_onine_backup12242142/img/034-80.jpg" alt="" loading="lazy"></div>
+    <div class="lp-img-block"><img src="lp202512_onine_backup12242142/img/035-80.jpg" alt="" loading="lazy"></div>
+    <div class="lp-img-block"><img src="lp202512_onine_backup12242142/img/036-80.jpg" alt="" loading="lazy"></div>
+  </div>
+</section>
+
+</div><!-- /#app -->
+
+<script>
+// ===== DATA =====
+const DIRECTIONS = ['東南東','西南西','南南東','南南西','東北東','西北西','北北東','北北西'];
+
+// Speed check targets (from paper test, Q1-30)
+const SPEED_TARGETS = [
+  '南南西','北北西','東北東','西北西','東北東',
+  '北北東','北北東','東南東','北北東','東北東',
+  '北北西','東南東','北北西','西南西','西北西',
+  '西南西','西北西','東北東','西北西','南南東',
+  '南南西','南南西','南南西','南南東','西南西',
+  '北北西','南南東','西南西','東南東','北北西'
+];
+
+// Logical test questions (from paper test, no 真ん中)
+const LOGICAL_Q = [
+  { c1:'AはCより悪い。', c2:'AはBより良い。', q:'一番良いのは？',  a:'C' },
+  { c1:'AはCより遠い。', c2:'BはAより遠い。', q:'一番遠いのは？',  a:'B' },
+  { c1:'AはBより良い。', c2:'CはAより良い。', q:'一番悪いのは？',  a:'B' },
+  { c1:'CはBより速い。', c2:'BはAより速い。', q:'一番速いのは？',  a:'C' },
+  { c1:'AはBより軽い。', c2:'BはCより重い。', q:'一番重いのは？',  a:'B' },
+  { c1:'BはCより遅い。', c2:'AはCより速い。', q:'一番速いのは？',  a:'A' },
+  { c1:'AはBより遅い。', c2:'CはAより遅い。', q:'一番速いのは？',  a:'B' },
+  { c1:'CはAより弱い。', c2:'BはAより強い。', q:'一番強いのは？',  a:'B' },
+  { c1:'CはAより細い。', c2:'BはAより太い。', q:'一番細いのは？',  a:'C' },
+  { c1:'CはAより太い。', c2:'AはBより太い。', q:'一番太いのは？',  a:'C' },
+  { c1:'BはAより長い。', c2:'BはCより短い。', q:'一番短いのは？',  a:'A' },
+  { c1:'CはAより短い。', c2:'BはCより短い。', q:'一番長いのは？',  a:'A' },
+  { c1:'BはAより弱い。', c2:'CはBより弱い。', q:'一番強いのは？',  a:'A' },
+  { c1:'AはCより細い。', c2:'BはAより太い。', q:'一番細いのは？',  a:'A' },
+  { c1:'BはAより太い。', c2:'AはCより太い。', q:'一番太いのは？',  a:'B' },
+  { c1:'BはCより強い。', c2:'BはAより弱い。', q:'一番弱いのは？',  a:'C' },
+  { c1:'AはCより短い。', c2:'AはBより長い。', q:'一番長いのは？',  a:'C' },
+  { c1:'BはCより悪い。', c2:'AはBより悪い。', q:'一番良いのは？',  a:'C' },
+  { c1:'BはAより狭い。', c2:'CはAより広い。', q:'一番狭いのは？',  a:'B' },
+  { c1:'AはCより悪い。', c2:'BはAより悪い。', q:'一番良いのは？',  a:'C' },
+  { c1:'AはBより強い。', c2:'CはBより弱い。', q:'一番弱いのは？',  a:'C' },
+  { c1:'AはBより遠い。', c2:'CはAより遠い。', q:'一番遠いのは？',  a:'C' },
+  { c1:'CはAより弱い。', c2:'BはCより弱い。', q:'一番強いのは？',  a:'A' },
+  { c1:'BはCより狭い。', c2:'AはBより広い。', q:'一番狭いのは？',  a:'B' },
+  { c1:'BはAより低い。', c2:'CはBより低い。', q:'一番低いのは？',  a:'C' },
+  { c1:'BはCより浅い。', c2:'BはAより深い。', q:'一番浅いのは？',  a:'A' },
+  { c1:'CはBより長い。', c2:'AはBより短い。', q:'一番短いのは？',  a:'A' },
+  { c1:'AはBより軽い。', c2:'CはAより軽い。', q:'一番重いのは？',  a:'B' },
+  { c1:'AはCより遅い。', c2:'CはBより遅い。', q:'一番遅いのは？',  a:'A' },
+  { c1:'AはCより低い。', c2:'CはBより低い。', q:'一番低いのは？',  a:'A' },
+];
+
+// ===== STATE =====
+const st = {
+  speedIdx: 0, speedOk: 0, speedTimer: null, speedLeft: 30,
+  logicalIdx: 0, logicalOk: 0, logicalTimer: null, logicalLeft: 60,
+};
+
+// ===== HELPERS =====
+function showScreen(id) {
+  document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+  window.scrollTo(0, 0);
+}
+
+function shuffle(arr) {
+  return [...arr].sort(() => Math.random() - 0.5);
+}
+
+function formatTime(sec) {
+  const m = Math.floor(sec / 60);
+  const s = sec % 60;
+  return `残り ${m}:${String(s).padStart(2, '0')}`;
+}
+
+function updateTimerBar(el, left, total) {
+  el.textContent = formatTime(left);
+  const ratio = left / total;
+  el.className = 'top-bar-timer' + (ratio <= 0.1 ? ' danger' : ratio <= 0.3 ? ' warn' : '');
+}
+
+// ===== SPEED TEST =====
+function startSpeedTest() {
+  st.speedIdx = 0; st.speedOk = 0; st.speedLeft = 30;
+  showScreen('screen-speed-test');
+  renderSpeed();
+  const bar = document.getElementById('speed-timer-bar');
+  st.speedTimer = setInterval(() => {
+    st.speedLeft--;
+    updateTimerBar(bar, st.speedLeft, 30);
+    if (st.speedLeft <= 0) { clearInterval(st.speedTimer); showScreen('screen-logical-intro'); }
+  }, 1000);
+}
+
+function renderSpeed() {
+  const target = SPEED_TARGETS[st.speedIdx];
+  document.getElementById('speed-q-num').textContent = st.speedIdx + 1;
+  document.getElementById('speed-target').textContent = target;
+  const choices = shuffle(DIRECTIONS);
+  document.getElementById('speed-choices').innerHTML =
+    choices.map(c => `<button class="speed-choice-btn" onclick="answerSpeed('${c}')">${c}</button>`).join('');
+}
+
+function answerSpeed(chosen) {
+  if (st.speedLeft <= 0) return;
+  if (chosen === SPEED_TARGETS[st.speedIdx]) st.speedOk++;
+  st.speedIdx++;
+  if (st.speedIdx >= 30) { clearInterval(st.speedTimer); showScreen('screen-logical-intro'); return; }
+  renderSpeed();
+}
+
+// ===== LOGICAL TEST =====
+function startLogicalTest() {
+  st.logicalIdx = 0; st.logicalOk = 0; st.logicalLeft = 60;
+  showScreen('screen-logical-test');
+  renderLogical();
+  const bar = document.getElementById('logical-timer-bar');
+  st.logicalTimer = setInterval(() => {
+    st.logicalLeft--;
+    updateTimerBar(bar, st.logicalLeft, 60);
+    if (st.logicalLeft <= 0) { clearInterval(st.logicalTimer); goFinished(); }
+  }, 1000);
+}
+
+function renderLogical() {
+  const q = LOGICAL_Q[st.logicalIdx];
+  document.getElementById('logical-q-num').textContent = st.logicalIdx + 1;
+  document.getElementById('logical-conditions').textContent = q.c1 + '　' + q.c2;
+  document.getElementById('logical-question').textContent = q.q;
+}
+
+function answerLogical(chosen) {
+  if (st.logicalLeft <= 0) return;
+  const q = LOGICAL_Q[st.logicalIdx];
+  if (chosen === q.a) st.logicalOk++;
+  st.logicalIdx++;
+  if (st.logicalIdx >= 30) { clearInterval(st.logicalTimer); goFinished(); return; }
+  renderLogical();
+}
+
+// ===== FINISHED → RESULT =====
+function goFinished() {
+  showScreen('screen-finished');
+  setTimeout(showResult, 2200);
+}
+
+// ===== RESULTS =====
+const RANK_DATA = [
+  {
+    min: 0, max: 25,
+    level: '落ち着いてチャレンジ',
+    title: 'あなたの情報処理能力には、大きな伸びしろがあります',
+    body: '今回の診断では、スピード・読解力ともにこれからが伸びしろの段階です。脳の処理速度は、実践的なトレーニングを継続することで確実に高めることができます。まずは無料体験で、実際のトレーニングを試してみてください。'
+  },
+  {
+    min: 26, max: 50,
+    level: '初回では十分',
+    title: 'あなたの情報処理能力には、まだ伸びしろがあります',
+    body: '平均的な水準ですが、ここからトレーニングを始めた方が最も大きな変化を実感しています。スピード・読解力を同時に鍛えることで、仕事・学習全般のパフォーマンスが変わります。'
+  },
+  {
+    min: 51, max: 75,
+    level: 'かなり高レベル',
+    title: 'あなたの情報処理能力は、平均を上回っています',
+    body: '処理速度・読解力ともに高い水準にあります。さらに継続的なトレーニングを積むことで、トップ層と同等のパフォーマンスを発揮できます。上の水準を目指しましょう。'
+  },
+  {
+    min: 76, max: 100,
+    level: 'プロフェッショナル',
+    title: 'あなたの情報処理能力は、非常に高い水準です',
+    body: '今回の診断では、継続受講者に近い水準の結果が出ています。さらなる向上のため、実際のトレーニングで処理速度・読解力を鍛え続けることができます。'
+  }
+];
+
+function showResult() {
+  const score = Math.round((st.speedOk + st.logicalOk) * (50 / 30));
+  showScreen('screen-result');
+  window.scrollTo(0, 0);
+
+  document.getElementById('stat-speed').textContent = st.speedOk;
+  document.getElementById('stat-logical').textContent = st.logicalOk;
+
+  // count-up
+  const el = document.getElementById('result-score');
+  let cur = 0;
+  const step = score / (1200 / 16);
+  const raf = setInterval(() => {
+    cur = Math.min(cur + step, score);
+    el.textContent = Math.round(cur);
+    if (cur >= score) clearInterval(raf);
+  }, 16);
+
+  // Highlight active row
+  const rows = document.querySelectorAll('#result-table tr[data-range]');
+  rows.forEach(row => {
+    row.classList.remove('active-row');
+    const [lo, hi] = row.dataset.range.split('-').map(Number);
+    if (score >= lo && score <= hi) row.classList.add('active-row');
+  });
+
+  // Message
+  const rank = RANK_DATA.find(r => score >= r.min && score <= r.max) || RANK_DATA[0];
+  document.getElementById('result-message-body').textContent = rank.body;
+}
+
+// ===== LP ACCORDIONS =====
+function toggleAccordion(btn) {
+  const panel = btn.nextElementSibling;
+  const isOpen = panel.classList.contains('open');
+  panel.classList.toggle('open', !isOpen);
+  btn.querySelector('.acc-close').style.display = isOpen ? 'block' : 'none';
+  btn.querySelector('.acc-open').style.display  = isOpen ? 'none'  : 'block';
+}
+</script>
+</body>
+</html>
