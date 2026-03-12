@@ -76,11 +76,11 @@
       height: auto;
     }
     .fv-hero-bottom {
-      margin-top: -72px;
+      margin-top: -100px;
       position: relative;
       z-index: 2;
-      padding: 0 16px 16px;
-      background: linear-gradient(to bottom, transparent, #fff 32%);
+      padding: 0 20px 20px;
+      background: linear-gradient(to bottom, transparent, #fff 40%);
     }
     .btn-start-fv {
       display: block;
@@ -685,7 +685,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
   <div class="fv-hero">
     <img src="img/速読力診断.png" alt="速読力診断" class="fv-hero-img">
     <div class="fv-hero-bottom">
-      <button class="btn-start-fv" onclick="showScreen('screen-speed-intro')">
+      <button class="btn-start-fv" onclick="dataLayer.push({event:'click_start'});showScreen('screen-speed-intro')">
         <div class="btn-start-fv-sub">いますぐ無料で</div>
         <div class="btn-start-fv-main">診断 START</div>
       </button>
@@ -953,7 +953,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     <!-- CTA (003-80) -->
     <div class="lp-cta-ov">
       <img class="base" src="img/003-80.jpg" alt="" loading="lazy">
-      <a class="cta-btn" href="https://lin.ee/dOVG8NV">
+      <a class="cta-btn" href="https://lin.ee/dOVG8NV" onclick="dataLayer.push({event:'click_cta_line',cta_location:'lp_middle'})">
         <span class="pulse-btn shiny-btn">
           <img src="img/cta_btn.png" alt="無料オンライン体験に申し込む" loading="lazy">
         </span>
@@ -988,7 +988,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     <!-- CTA2 (032-80) -->
     <div class="lp-cta-ov lp-cta-ov-2">
       <img class="base" src="img/032-80.jpg" alt="" loading="lazy">
-      <a class="cta-btn" href="https://lin.ee/dOVG8NV">
+      <a class="cta-btn" href="https://lin.ee/dOVG8NV" onclick="dataLayer.push({event:'click_cta_line',cta_location:'lp_step1'})">
         <span class="pulse-btn shiny-btn">
           <img src="img/cta_btn2.png" alt="無料オンライン体験に申し込む" loading="lazy">
         </span>
@@ -1000,7 +1000,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
       <img class="base" src="img/033-80.jpg" alt="" loading="lazy">
       <div class="lp-cta33-content">
         <img src="img/cta_btn_txt1.png" alt="" loading="lazy">
-        <a class="pulse-btn shiny-btn" href="https://online.cre-sokudoku.co.jp/application/" style="border-radius:60px;">
+        <a class="pulse-btn shiny-btn" href="https://online.cre-sokudoku.co.jp/application/" onclick="dataLayer.push({event:'click_cta_application',cta_location:'lp_bottom'})" style="border-radius:60px;">
           <img src="img/cta_btn3.png" alt="無料オンライン体験に申し込む" loading="lazy">
         </a>
       </div>
@@ -1016,7 +1016,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 
 <!-- ===== FIXED CTA ===== -->
 <div id="fixed-cta">
-  <a class="shiny-btn" href="https://lin.ee/dOVG8NV">
+  <a class="shiny-btn" href="https://lin.ee/dOVG8NV" onclick="dataLayer.push({event:'click_cta_fixed',cta_location:'fixed_bottom'})">
     <img src="img/cta_btn.png" alt="無料オンライン体験に申し込む">
   </a>
 </div>
@@ -1100,6 +1100,7 @@ function updateTimerBar(el, left, total) {
 
 // ===== SPEED TEST =====
 function startSpeedTest() {
+  dataLayer.push({event:'start_speed_test'});
   st.speedIdx = 0; st.speedOk = 0; st.speedLeft = 30;
   showScreen('screen-speed-test');
   renderSpeed();
@@ -1107,7 +1108,7 @@ function startSpeedTest() {
   st.speedTimer = setInterval(() => {
     st.speedLeft--;
     updateTimerBar(bar, st.speedLeft, 30);
-    if (st.speedLeft <= 0) { clearInterval(st.speedTimer); showScreen('screen-logical-intro'); }
+    if (st.speedLeft <= 0) { clearInterval(st.speedTimer); dataLayer.push({event:'complete_speed_test',speed_correct:st.speedOk,speed_answered:st.speedIdx,completion:'timeout'}); showScreen('screen-logical-intro'); }
   }, 1000);
 }
 
@@ -1124,12 +1125,13 @@ function answerSpeed(chosen) {
   if (st.speedLeft <= 0) return;
   if (chosen === SPEED_TARGETS[st.speedIdx]) st.speedOk++;
   st.speedIdx++;
-  if (st.speedIdx >= 30) { clearInterval(st.speedTimer); showScreen('screen-logical-intro'); return; }
+  if (st.speedIdx >= 30) { clearInterval(st.speedTimer); dataLayer.push({event:'complete_speed_test',speed_correct:st.speedOk,speed_answered:st.speedIdx,completion:'all_answered'}); showScreen('screen-logical-intro'); return; }
   renderSpeed();
 }
 
 // ===== LOGICAL TEST =====
 function startLogicalTest() {
+  dataLayer.push({event:'start_logical_test'});
   st.logicalIdx = 0; st.logicalOk = 0; st.logicalLeft = 60;
   showScreen('screen-logical-test');
   renderLogical();
@@ -1137,7 +1139,7 @@ function startLogicalTest() {
   st.logicalTimer = setInterval(() => {
     st.logicalLeft--;
     updateTimerBar(bar, st.logicalLeft, 60);
-    if (st.logicalLeft <= 0) { clearInterval(st.logicalTimer); goFinished(); }
+    if (st.logicalLeft <= 0) { clearInterval(st.logicalTimer); dataLayer.push({event:'complete_logical_test',logical_correct:st.logicalOk,logical_answered:st.logicalIdx,completion:'timeout'}); goFinished(); }
   }, 1000);
 }
 
@@ -1153,7 +1155,7 @@ function answerLogical(chosen) {
   const q = LOGICAL_Q[st.logicalIdx];
   if (chosen === q.a) st.logicalOk++;
   st.logicalIdx++;
-  if (st.logicalIdx >= 30) { clearInterval(st.logicalTimer); goFinished(); return; }
+  if (st.logicalIdx >= 30) { clearInterval(st.logicalTimer); dataLayer.push({event:'complete_logical_test',logical_correct:st.logicalOk,logical_answered:st.logicalIdx,completion:'all_answered'}); goFinished(); return; }
   renderLogical();
 }
 
@@ -1220,6 +1222,9 @@ function showResult() {
   // Message
   const rank = RANK_DATA.find(r => score >= r.min && score <= r.max) || RANK_DATA[0];
   document.getElementById('result-message-body').textContent = rank.body;
+
+  // GTM: 結果表示イベント
+  dataLayer.push({event:'view_result',score:score,speed_correct:st.speedOk,logical_correct:st.logicalOk,rank:rank.level});
 }
 
 // ===== LP ACCORDIONS =====
@@ -1230,6 +1235,31 @@ function toggleAccordion(btn) {
   btn.querySelector('.acc-close').style.display = isOpen ? 'block' : 'none';
   btn.querySelector('.acc-open').style.display  = isOpen ? 'none'  : 'block';
 }
+
+// ===== GTM: FV表示 =====
+dataLayer.push({event:'page_view_fv'});
+
+// ===== GTM: LPスクロール計測 =====
+(function () {
+  var scrollFired = {};
+  var targets = [
+    {selector:'img[src="img/007-80.jpg"]', event:'scroll_lp_training'},
+    {selector:'img[src="img/023-80.jpg"]', event:'scroll_lp_voice'},
+    {selector:'img[src="img/031-80.jpg"]', event:'scroll_lp_pricing'}
+  ];
+  targets.forEach(function(t) {
+    var el = document.querySelector(t.selector);
+    if (!el) return;
+    new IntersectionObserver(function(entries) {
+      entries.forEach(function(entry) {
+        if (entry.isIntersecting && !scrollFired[t.event]) {
+          scrollFired[t.event] = true;
+          dataLayer.push({event:t.event});
+        }
+      });
+    }, {threshold:0}).observe(el);
+  });
+})();
 
 // ===== FIXED CTA =====
 (function () {
