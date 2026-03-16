@@ -565,6 +565,10 @@
       display: block;
     }
     .lp-cta-ov a.cta-btn img { width: 100%; border-radius: 60px; }
+    /* 003-80-0316 専用: ボタンをやや下に */
+    .lp-cta-ov-results a.cta-btn {
+      bottom: 6%;
+    }
     /* 032-80.jpg 専用: STEP01ブロック内に配置 */
     .lp-cta-ov-2 a.cta-btn {
       top: 22%;
@@ -844,6 +848,16 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     <img src="img/results2.png" alt="" style="display:block;width:100%;height:auto;">
   </div>
 
+  <!-- CTA (003-80-0316) after results -->
+  <div class="lp-cta-ov lp-cta-ov-results">
+    <img class="base" src="img/003-80-0316.png" alt="" loading="lazy">
+    <a class="cta-btn" href="https://lin.ee/dOVG8NV" onclick="dataLayer.push({event:'click_cta_line',cta_location:'after_results'})">
+      <span class="pulse-btn shiny-btn">
+        <img src="img/cta_btn.png" alt="無料オンライン体験に申し込む" loading="lazy">
+      </span>
+    </a>
+  </div>
+
   <!-- LP SECTION: 007-80 onward -->
   <div id="lp-section">
 
@@ -952,7 +966,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 
     <!-- CTA (003-80) -->
     <div class="lp-cta-ov">
-      <img class="base" src="img/003-80.jpg" alt="" loading="lazy">
+      <img class="base" src="img/003-80-0316.png" alt="" loading="lazy">
       <a class="cta-btn" href="https://lin.ee/dOVG8NV" onclick="dataLayer.push({event:'click_cta_line',cta_location:'lp_middle'})">
         <span class="pulse-btn shiny-btn">
           <img src="img/cta_btn.png" alt="無料オンライン体験に申し込む" loading="lazy">
@@ -993,17 +1007,6 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
           <img src="img/cta_btn2.png" alt="無料オンライン体験に申し込む" loading="lazy">
         </span>
       </a>
-    </div>
-
-    <!-- CTA3 (033-80) -->
-    <div class="lp-cta33">
-      <img class="base" src="img/033-80.jpg" alt="" loading="lazy">
-      <div class="lp-cta33-content">
-        <img src="img/cta_btn_txt1.png" alt="" loading="lazy">
-        <a class="pulse-btn shiny-btn" href="https://online.cre-sokudoku.co.jp/application/" onclick="dataLayer.push({event:'click_cta_application',cta_location:'lp_bottom'})" style="border-radius:60px;">
-          <img src="img/cta_btn3.png" alt="無料オンライン体験に申し込む" loading="lazy">
-        </a>
-      </div>
     </div>
 
     <div class="lp-img-block"><img src="img/034-80.jpg" alt="" loading="lazy"></div>
@@ -1266,8 +1269,8 @@ dataLayer.push({event:'page_view_fv'});
   const fixedCta = document.getElementById('fixed-cta');
   if (!fixedCta) return;
 
-  // 011-80.jpg が表示されたら追従CTAを出す。上に戻ったら消す
-  const triggerImg = document.querySelector('img[src="img/011-80.jpg"]');
+  // 007-80.jpg が表示されたら追従CTAを出す。上に戻ったら消す
+  const triggerImg = document.querySelector('img[src="img/007-80.jpg"]');
   if (!triggerImg) return;
 
   const observer = new IntersectionObserver(
